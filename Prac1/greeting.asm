@@ -3,7 +3,8 @@ global greeting
 
 section .data
 ; ==========================
-; Your data goes here
+  greeting_msg db 'Welcome to the Bank of <<Redacted>>', 0   ; The greeting message
+  msg_len equ $ - greeting_msg                  ; The length of the message
 ; ==========================
 
 section .text
@@ -14,7 +15,11 @@ greeting:
   mov rbp, rsp
 ; Do not modify anything above this line unless you know what you are doing
 ; ==========================
-; Your code goes here
+  mov rax, 1    ; System call for write
+  mov rdi, 1  ; File descriptor 1 is stdout
+  mov rsi, greeting_msg ; Address of the string to output
+  mov rdx, msg_len  ; Number of bytes
+  syscall        ; Invoke
 ; ==========================
 ; Do not modify anything below this line unless you know what you are doing
   leave
