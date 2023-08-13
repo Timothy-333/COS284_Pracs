@@ -1,11 +1,10 @@
 ; This makes your function available to other files
-; This makes your function available to other files
 global get_pin
 
 section .data
 ; ==========================
-  prompt db "Enter a 4-digit PIN: ", 0
-  pin db "",0
+  prompt db "Enter 4-digit PIN: ", 0
+  prompt_len equ $ - prompt
 ; ==========================
 section .bss
     input_char resb 5  ; Buffer to store the user input character
@@ -23,7 +22,7 @@ get_pin:
   mov rax, 1    ; System call for write
   mov rdi, 1  ; File descriptor 1 is stdout
   mov rsi, prompt ; Address of the string to output
-  mov rdx, 21 ; Number of bytes
+  mov rdx, prompt_len ; Number of bytes
   syscall        ; Invoke
   ; Read the pin from stdin and store it in a buffer
   mov rax, 0            ; Syscall number for sys_read
@@ -32,24 +31,21 @@ get_pin:
   mov rdx, 4            ; Number of bytes to read
   syscall              ; Call the kernel
 ; Convert the pin to an integer
-  mov [pin], rsi
-  xor rax, rax
-  xor rcx, rcx
-  .parse_loop:
-    movzx rdx, byte [pin + rcx]  ; Load the current character from the string
-    cmp rdx, 0                            ; Check if it's the null terminator
-    je .convert_done                      ; If null terminator, exit loop
-    sub rdx, '0'                          ; Convert ASCII digit to integer
-    imul rax, rax, 10                    ; Multiply rax by 10
-    add rax, rdx                          ; Add the new digit
-    inc rcx                               ; Move to the next character
-    jmp .parse_loop                       ; Repeat the loop
-  
-  .convert_done:
-    ; Store the result in the 'result' variable
-    mov [pin], rax
-    mov eax, [pin]
-; Store the integer in eax
+  xor rax, rax  ; Initialize rax to zero
+  xor rcx, rcx  ; Initialize rcx to zero
+
+.parse_loop:
+  movzx rdx, byte [rsi + rcx]  ; Load the current character from the string
+  cmp rdx, 0                   ; Check if it's the null terminator
+  je .convert_done             ; If null terminator, exit loop
+  sub rdx, '0'                 ; Convert ASCII digit to integer
+  imul rax, rax, 10           ; Multiply rax by 10
+  add rax, rdx                 ; Add the new digit
+  inc rcx                      ; Move to the next character
+  jmp .parse_loop              ; Repeat the loop
+
+.convert_done:
+  mov rax, rax
 ; ==========================
 ; Do not modify anything below this line unless you know what you are doing
   leave

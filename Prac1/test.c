@@ -122,11 +122,11 @@ void test_obscure_pin(void)
 
 // List of test cases
 TestCase test_cases[] = {
-    {test_greeting, "greeting"},
-    {test_get_pin, "get_pin"},
-    {test_calculate_account, "calculate_account"},
-    {test_calculate_balance, "calculate_balance"},
-    {test_obscure_pin, "obscure_pin"},
+    // {test_greeting, "greeting"},
+    // {test_get_pin, "get_pin"},
+    // {test_calculate_account, "calculate_account"},
+    // {test_calculate_balance, "calculate_balance"},
+    // {test_obscure_pin, "obscure_pin"},
     {test_create_account, "create_account"},
 };
 

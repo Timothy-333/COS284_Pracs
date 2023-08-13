@@ -3,7 +3,7 @@ global greeting
 
 section .data
 ; ==========================
-  greeting_msg db 'Welcome to the Bank of <<Redacted>>', 0   ; The greeting message
+  greeting_msg db 'Welcome to the Bank of <<Redacted>>', 13,10   ; The greeting message
   msg_len equ $ - greeting_msg                  ; The length of the message
 ; ==========================
 
