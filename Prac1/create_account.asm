@@ -140,7 +140,7 @@ create_account:
   mov rdx, 5
   syscall
   ; Obsfucate the pin
-  mov rdi, pin_ptr
+  mov rdi, [pin_ptr]
   call obscure_pin
   ; Output newline
   ; mov rsi, newline

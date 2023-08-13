@@ -7,7 +7,7 @@ section .data
   prompt_len equ $ - prompt
 ; ==========================
 section .bss
-    input_char resb 5  ; Buffer to store the user input character
+    input_char resb 4  ; Buffer to store the user input character
 
 section .text
 ; uint32_t get_pin()
@@ -22,7 +22,7 @@ get_pin:
   mov rax, 1    ; System call for write
   mov rdi, 1  ; File descriptor 1 is stdout
   mov rsi, prompt ; Address of the string to output
-  mov rdx, prompt_len ; Number of bytes
+  mov rdx, 19 ; Number of bytes
   syscall        ; Invoke
   ; Read the pin from stdin and store it in a buffer
   mov rax, 0            ; Syscall number for sys_read
