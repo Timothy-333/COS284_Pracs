@@ -16,13 +16,14 @@ section .data
   bal_ptr dq 0
   acc_num_val dd 0
   pin_val dd 0
-  account_message db 'Your account number is:',0
+  account_message db 'Your account number is:'
   acc_len equ $ - account_message 
-  balance_message db 'Your balance is:',0
+  balance_message db 'Your balance is:'
   bal_len equ $ - balance_message
-  pin_message db 'Your obscured PIN is:',0
+  pin_message db 'Your obscured PIN is:'
   pin_len equ $ - pin_message
   newline db 10,10,0
+  obs_pin db 0
 ; ==========================
 
 section .text
@@ -74,7 +75,7 @@ create_account:
     test rax, rax
     loop .balance_loop
   ; Convert the pin to ascii and store it in the pin pointer
-  mov rax, [pin_val]
+  mov eax, [pin_val]
   mov rsi, [pin_ptr]
   mov rbx, 10
   mov rcx, 4
@@ -143,28 +144,28 @@ create_account:
   mov rdi, [pin_ptr]
   call obscure_pin
   ; Output newline
-  ; mov rsi, newline
-  ; mov rdi, 1
-  ; mov rax, 1
-  ; mov rdx, 1
-  ; syscall
-  ; ; Output pin message
-  ; mov rsi, pin_message
-  ; mov rdi, 1
-  ; mov rax, 1
-  ; mov rdx, pin_len
-  ; syscall
-  ; mov rsi, newline
-  ; mov rdi, 1
-  ; mov rax, 1
-  ; mov rdx, 1
-  ; syscall
-  ; ; Output obscured pin
-  ; mov rsi, [pin_ptr]
-  ; mov rdi, 1
-  ; mov rax, 1
-  ; mov rdx, 4
-  ; syscall
+  mov rsi, newline
+  mov rdi, 1
+  mov rax, 1
+  mov rdx, 1
+  syscall
+  ; Output pin message
+  mov rsi, pin_message
+  mov rdi, 1
+  mov rax, 1
+  mov rdx, pin_len
+  syscall
+  mov rsi, newline
+  mov rdi, 1
+  mov rax, 1
+  mov rdx, 1
+  syscall
+  ; Output obscured pin
+  mov rsi, [pin_ptr]
+  mov rdi, 1
+  mov rax, 1
+  mov rdx, 4
+  syscall
     
   leave
   ret

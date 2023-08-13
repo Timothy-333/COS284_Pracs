@@ -17,10 +17,11 @@ obscure_pin:
 ; ==========================
 ; Your code goes here
   mov rbx, buffer ; buffer
+  mov rcx, 0
   ; copy pin to buffer
   .copy_loop:
     movzx rdx, byte [rdi + rcx] ; Load the current character from the string
-    cmp rdx, 0                  ; Check if it's the null terminator
+    cmp rcx, 4                  ; Check if it's the null terminator
     je .copy_done               ; If null terminator, exit loop
     mov byte [rbx + rcx], dl    ; Store the character back in the string
     inc rcx                     ; Increment the loop counter
@@ -45,6 +46,7 @@ obscure_pin:
     jmp .parse_loop              ; Repeat the loop
 
   .done:
+    mov rsi, rdi
 ; ==========================
 ; Do not modify anything below this line unless you know what you are doing
 
