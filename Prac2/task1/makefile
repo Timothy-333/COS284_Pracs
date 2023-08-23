@@ -10,6 +10,8 @@ populateMatrix.o: populateMatrix.asm
 	yasm -f elf64 -g dwarf2 populateMatrix.asm -o populateMatrix.o
 
 run: a.out
+	make clean
+	make
 	./a.out
 
 clean:

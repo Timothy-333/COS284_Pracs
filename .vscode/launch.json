@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/mnt/c/Users/User/Desktop/Tuks/2nd Year/2nd Semester/COS 284/COS284_Pracs/Prac1",
-      "program": "/mnt/c/Users/User/Desktop/Tuks/2nd Year/2nd Semester/COS 284/COS284_Pracs/Prac1/build/Debug/outDebug",
+      "cwd": "/mnt/c/Users/User/Desktop/Tuks/2nd Year/2nd Semester/COS 284/COS284_Pracs/Prac2",
+      "program": "/mnt/c/Users/User/Desktop/Tuks/2nd Year/2nd Semester/COS 284/COS284_Pracs/Prac2/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
