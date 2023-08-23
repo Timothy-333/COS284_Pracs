@@ -6,7 +6,7 @@ extern char** populateMatrix();
 int main()
 {
     char** matrix = populateMatrix();
-    
+    printf("test\n");
     for (int i = 0; i < 26; ++i) {
         for (int j = 0; j < 26; ++j) {
             printf("'%c' ", matrix[i][j]);

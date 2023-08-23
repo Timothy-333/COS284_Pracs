@@ -2,39 +2,40 @@
 global populateMatrix
 
 section .data
-    alphabet db "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0
+    alphabet db "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     matrix_size equ 26
 
 section .bss
-    matrix resb 26*26  ; Reserve space for the matrix
+    matrix resb matrix_size * matrix_size
+    strArr resq 26 ; outer array, the pointer to the pointer
 
 section .text
-; char** populateMatrix()
-; This creates a 2D array of characters and returns it
 
 populateMatrix:
-    mov rcx, 0   ; Outer loop index (row index)
-    mov rax, 0   ; Inner loop index (column index)
-    mov rdi, matrix ; load address of matrix into rdi
-    mov rbx, alphabet ; load alphabet into rbx
-
-populate_loop:
-    cmp rcx, matrix_size ; compare row index to matrix size
-    jge populate_end ; if row index >= matrix size, end loop
-    xor rax, rax ; reset column index
+    mov rdi, strArr  ; Load the address of strArr into rdi
+    mov rsi, matrix
+    ; Outer loop setup
+    xor rcx, rcx  ; Clear rcx to use as an outer loop counter
+outer_loop:
+    mov qword [rdi + rcx*8], rsi  ; Set strArr element to point to matrix section
+    xor r9, r9    ; Clear r9 to use as an inner loop counter
     inner_loop:
-        cmp rax, matrix_size ; compare column index to matrix size
-        jge inner_loop_end ; if column index >= matrix size, end loop
-        mov bl, [rbx] ; load current letter into bl
-        mov [rdi], bl ; store current letter in matrix
-        inc rdi ; increment matrix index
-        inc rax ; increment column index
-        jmp inner_loop ; jump to inner_loop
-    inner_loop_end:
-    inc rcx ; increment row index
-    ror rbx, 1 ; Rotate alphabet one to the right
-    jmp populate_loop ; jump to populate_loop
-
-populate_end:
-    mov rax, matrix ; return address of matrix
+        cmp r9, matrix_size     ; Compare r9 with matrix_size (section length)
+        jge end_inner   ; Jump to end_inner if r9 is greater or equal to 26
+        mov rbx , matrix_size   ; Load matrix_size into ebx
+        mov rax, rcx    ; Load rcx into eax
+        add rax, r9     ; Add r9 to eax
+        xor rdx, rdx    ; Clear edx to use as a division remainder
+        div rbx         ; Divide eax by ebx
+        mov al, [alphabet + rdx]  ; Load the character from the alphabet
+        mov byte [rsi + r9], al  ; Populate the character in the matrix section
+        inc r9         ; Increment r9 to the next character position
+        jmp inner_loop  ; Jump back to inner_loop
+    end_inner:
+    add rsi, matrix_size     ; Move to the next matrix section
+    inc rcx
+    cmp rcx, matrix_size
+    jl outer_loop   ; Jump to outer_loop if rcx is less than matrix_size
+    
+    mov rax, rdi
     ret
