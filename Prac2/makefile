@@ -16,6 +16,8 @@ encryptString.o: encryptString.asm
 	yasm -f elf64 -g dwarf2 encryptString.asm -o encryptString.o
 
 run: a.out
+	make clean
+	make
 	./a.out
 
 clean:
