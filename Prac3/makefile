@@ -25,6 +25,8 @@ $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
 run: $(EXECUTABLE)
+	make clean
+	make
 	./$(EXECUTABLE)
 
 debug: $(EXECUTABLE)
