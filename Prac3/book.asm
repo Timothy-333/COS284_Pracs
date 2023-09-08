@@ -10,7 +10,7 @@ section .data
         c_price: resd 1
         c_quantity: resd 1
     endstruc
-    c dq 0 ; Pointer to struct Book
+    c dq 1 ; Pointer to struct Book
 
 section .text
     global allocateBook
@@ -50,6 +50,7 @@ allocateBook:
     lea rdi, [rax + c_isbn]
     call strcpy
     mov rax, [c]
+
 
     leave
     ret
