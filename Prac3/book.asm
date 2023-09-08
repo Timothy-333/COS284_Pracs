@@ -24,6 +24,8 @@ section .text
 ; RAX - struct Book *
 
 allocateBook:
+    push rbp
+    mov rbp , rsp
     push rdi
     push rsi
     push rdx
@@ -34,16 +36,20 @@ allocateBook:
     mov [c], rax
 
     pop rdx
-    pop rsi
-    pop rdi
     movss xmm0, [price]
-
-    mov rsi, [rsi]
-    mov rdi, [rdi]
-
-    mov [rax + c_isbn], rdi
-    mov [rax + c_title], rsi
     movss [rax + c_price], xmm0
     mov [rax + c_quantity], edx
-    
+
+    pop rsi
+    lea rdi, [rax + c_title]
+    call strcpy
+    mov rax, [c]
+
+    pop rdi
+    lea rsi, [rdi]
+    lea rdi, [rax + c_isbn]
+    call strcpy
+    mov rax, [c]
+
+    leave
     ret

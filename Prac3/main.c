@@ -19,7 +19,7 @@ struct Library
     int count;
 };
 
-// struct Library *initialiseLibrary(void);
+struct Library *initialiseLibrary(void);
 // int addBook(struct Library *lib, struct Book *book);
 // struct Book *searchBookByISBN(struct Library *lib, char *isbn);
 extern struct Book *allocateBook(char *isbn, char *title, float price, int quantity);
@@ -39,14 +39,14 @@ int main()
         to verify that everything is as expected. That means testing negative flows as well as edge cases.
     */
     // Initialising library and asserting it's not NULL
-    // struct Library *lib = initialiseLibrary();
-    // assert(lib != NULL);
+    struct Library *lib = initialiseLibrary();
+    assert(lib != NULL);
 
     // Testing addition of books to the library
     struct Book *book1 = allocateBook("978316148\0", "The C Programming Language\0", 9.99, 10);
     printBookDetails(*book1);
-    // assert(addBook(lib, book1) == 1);
-    // assert(lib->count == 1);                                                  // Testing if the library count is correct
+    assert(addBook(lib, book1) == 1);
+    assert(lib->count == 1);                                                  // Testing if the library count is correct
     // assert(lib->books[0].quantity == 10);                                     // Testing if the quantity is correct
     // assert(fabs(lib->books[0].price - 9.99) < EPSILON);                       // Testing if the price is correct
     // assert(strcmp(lib->books[0].isbn, "978316148\0") == 0);                   // Testing if the ISBN is correct
