@@ -1,7 +1,8 @@
 {
   "files.associations": {
     "stdio.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "math.h": "c"
   },
   "nasm.nasmPath": "/usr/bin/yasm",
   "C_Cpp_Runner.msvcBatchPath": "",

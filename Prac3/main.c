@@ -21,7 +21,7 @@ struct Library
 
 extern struct Library *initialiseLibrary(void);
 int addBook(struct Library *lib, struct Book *book);
-// struct Book *searchBookByISBN(struct Library *lib, char *isbn);
+struct Book *searchBookByISBN(struct Library *lib, char *isbn);
 extern struct Book *allocateBook(char *isbn, char *title, float price, int quantity);
 
 void printBookDetails(struct Book book)
@@ -40,72 +40,66 @@ int main()
     */
     // Initialising library and asserting it's not NULL
     struct Library *lib = initialiseLibrary();
-    printf("Count: %d\n", lib->count);
     assert(lib != NULL);
     assert(lib->count == 0); // Testing if the library count is correct
     // Testing addition of books to the library
     struct Book *book1 = allocateBook("978316148\0", "The C Programming Language\0", 9.99, 10);
-    struct Book *book2 = allocateBook("978012345\0", "Another Book Title\0", 15.49, 5);
     printBookDetails(*book1);
-    printf("\n");
-    printBookDetails(*book2);
-    printf("\n");
-    printBookDetails(lib->books[0]);
     printf("\n");
     addBook(lib, book1);
     printBookDetails(lib->books[0]);
     printf("\n");
     printf("Count: %d\n", lib->count);
     printf("Price: %.2f\n", lib->books[0].price);
-    // assert(result == 1);
-    // assert(lib->count == 1);                                                  // Testing if the library count is correct
-    // assert(lib->books[0].quantity == 10);                                     // Testing if the quantity is correct
-    // assert(fabs(lib->books[0].price - 9.99) < EPSILON);                       // Testing if the price is correct
-    // assert(strcmp(lib->books[0].isbn, "978316148\0") == 0);                   // Testing if the ISBN is correct
-    // assert(strcmp(lib->books[0].title, "The C Programming Language\0") == 0); // Testing if the title is correct
+    assert(lib->count == 1);                                                  // Testing if the library count is correct
+    assert(lib->books[0].quantity == 10);                                     // Testing if the quantity is correct
+    assert(fabs(lib->books[0].price - 9.99) < EPSILON);                       // Testing if the price is correct
+    assert(strcmp(lib->books[0].isbn, "978316148\0") == 0);                   // Testing if the ISBN is correct
+    assert(strcmp(lib->books[0].title, "The C Programming Language\0") == 0); // Testing if the title is correct
 
-    // struct Book *book2 = allocateBook("978012345\0", "Another Book Title\0", 15.49, 5);
-    // assert(addBook(lib, book2) == 1);
-    // assert(lib->count == 2); // Testing if the library count is correct
-    // // Testing if the first book is still there
-    // assert(lib->books[0].quantity == 10);                                     // Testing if the quantity is correct
-    // assert(fabs(lib->books[0].price - 9.99) < EPSILON);                       // Testing if the price is correct
-    // assert(strcmp(lib->books[0].isbn, "978316148\0") == 0);                   // Testing if the ISBN is correct
-    // assert(strcmp(lib->books[0].title, "The C Programming Language\0") == 0); // Testing if the title is correct
-    // // Testing if the second book is added correctly
-    // assert(lib->books[1].quantity == 5);                              // Testing if the quantity is correct
-    // assert(fabs(lib->books[1].price - 15.49) < EPSILON);              // Testing if the price is correct
-    // assert(strcmp(lib->books[1].isbn, "978012345\0") == 0);           // Testing if the ISBN is correct
-    // assert(strcmp(lib->books[1].title, "Another Book Title\0") == 0); // Testing if the title is correct
+    struct Book *book2 = allocateBook("978012345\0", "Another Book Title\0", 15.49, 5);
+    assert(addBook(lib, book2) == 1);
+    assert(lib->count == 2); // Testing if the library count is correct
+    // Testing if the first book is still there
+    assert(lib->books[0].quantity == 10);                                     // Testing if the quantity is correct
+    assert(fabs(lib->books[0].price - 9.99) < EPSILON);                       // Testing if the price is correct
+    assert(strcmp(lib->books[0].isbn, "978316148\0") == 0);                   // Testing if the ISBN is correct
+    assert(strcmp(lib->books[0].title, "The C Programming Language\0") == 0); // Testing if the title is correct
+    // Testing if the second book is added correctly
+    assert(lib->books[1].quantity == 5);                              // Testing if the quantity is correct
+    assert(fabs(lib->books[1].price - 15.49) < EPSILON);              // Testing if the price is correct
+    assert(strcmp(lib->books[1].isbn, "978012345\0") == 0);           // Testing if the ISBN is correct
+    assert(strcmp(lib->books[1].title, "Another Book Title\0") == 0); // Testing if the title is correct
 
-    // // Testing duplicate ISBN (should update quantity)
-    // struct Book *book3 = allocateBook("978316148\0", "The C Programming Language\0", 9.99, 5);
-    // assert(addBook(lib, book3) == 1);
-    // struct Book *searchResult = searchBookByISBN(lib, "978316148\0");
-    // assert(searchResult != NULL);
-    // assert(searchResult->quantity == 15);
+    // Testing duplicate ISBN (should update quantity)
+    struct Book *book3 = allocateBook("978316148\0", "The C Programming Language\0", 9.99, 5);
+    assert(addBook(lib, book3) == 1);
+    struct Book *searchResult = searchBookByISBN(lib, "978316148\0");
+    assert(searchResult != NULL);
+    printf("Quantity: %d\n", searchResult->quantity);
+    assert(searchResult->quantity == 15);
 
-    // // Testing the library limit
-    // assert(addBook(lib, allocateBook("978098765\0", "Yet Another Book\0", 20.89, 7)) == 1);
-    // assert(addBook(lib, allocateBook("978111111\0", "Some Book\0", 10.0, 2)) == 1);
-    // assert(addBook(lib, allocateBook("978222222\0", "Some Other Book\0", 5.0, 3)) == 1);
-    // // This next book should fail
-    // assert(addBook(lib, allocateBook("978333333\0", "How to live with yourself\0", 5.0, 3)) == 0);
+    // Testing the library limit
+    assert(addBook(lib, allocateBook("978098765\0", "Yet Another Book\0", 20.89, 7)) == 1);
+    assert(addBook(lib, allocateBook("978111111\0", "Some Book\0", 10.0, 2)) == 1);
+    assert(addBook(lib, allocateBook("978222222\0", "Some Other Book\0", 5.0, 3)) == 1);
+    // This next book should fail
+    assert(addBook(lib, allocateBook("978333333\0", "How to live with yourself\0", 5.0, 3)) == 0);
 
-    // // Testing book search by ISBN
-    // searchResult = searchBookByISBN(lib, "978316148\0");
-    // assert(searchResult != NULL);
-    // assert(strcmp(searchResult->isbn, "978316148\0") == 0);
+    // Testing book search by ISBN
+    searchResult = searchBookByISBN(lib, "978316148\0");
+    assert(searchResult != NULL);
+    assert(strcmp(searchResult->isbn, "978316148\0") == 0);
 
-    // // Testing for non-existing ISBN
-    // searchResult = searchBookByISBN(lib, "978000000\0");
-    // assert(searchResult == NULL);
+    // Testing for non-existing ISBN
+    searchResult = searchBookByISBN(lib, "978000000\0");
+    assert(searchResult == NULL);
 
-    // // Testing if the library count is correct
-    // assert(lib->count == 5);
+    // Testing if the library count is correct
+    assert(lib->count == 5);
 
-    // // Cleanup
-    // free(lib);
+    // Cleanup
+    free(lib);
 
     printf("All tests passed successfully.\n");
 
